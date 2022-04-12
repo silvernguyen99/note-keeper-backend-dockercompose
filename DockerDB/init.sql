@@ -1,7 +1,3 @@
--- Table: public.tb_users
-
--- DROP TABLE IF EXISTS public.tb_users;
-
 CREATE SEQUENCE tb_users_user_id_seq;
 
 CREATE TABLE IF NOT EXISTS public.tb_users
@@ -27,9 +23,7 @@ ON public.tb_users(access_token);
 CREATE UNIQUE INDEX tb_users__idx_user_id
 ON public.tb_users(user_id);
 
--- Table: public.tb_login_social
 
--- DROP TABLE IF EXISTS public.tb_login_social;
 CREATE TABLE IF NOT EXISTS public.tb_login_social
 (
     user_id integer NOT NULL,
@@ -47,9 +41,7 @@ CREATE UNIQUE INDEX tb_login_social__user_provider_unique ON tb_login_social (us
 CREATE UNIQUE INDEX tb_login_social__provider_social_unique ON tb_login_social (social_id,type_provider);
 
 
--- Table: public.tb_notes
 
--- DROP TABLE IF EXISTS public.tb_notes;
 CREATE SEQUENCE tb_notes_note_id_seq;
 
 CREATE TABLE IF NOT EXISTS public.tb_notes

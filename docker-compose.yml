@@ -1,0 +1,22 @@
+version: '2'
+services:
+  db:
+    image: postgres:14-alpine
+    environment:
+      # - POSTGRES_USER=postgres # The PostgreSQL user (useful to connect to the database)
+      - POSTGRES_PASSWORD=password # The PostgreSQL password (useful to connect to the database)
+      # - POSTGRES_DB=note-keeper # The PostgreSQL default database (automatically created at first launch)
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    # volumes:
+    #   - ./DockerDB/init.sql:/docker-entrypoint-initdb.d/init.sql
+  backend:
+    image: 821924379270.dkr.ecr.us-east-1.amazonaws.com/note-keeper-backend
+    ports:
+      - "9000:9000"
+    environment:
+      - POSTGRES_PASSWORD=password
+    depends_on:
+      - db
+    command: ["./wait-for-postgres.sh", "db","--", "/app/server"]
