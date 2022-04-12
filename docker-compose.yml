@@ -1,0 +1,33 @@
+version: '3'
+services:
+  db:
+    image: 821924379270.dkr.ecr.us-east-1.amazonaws.com/note-keeper-db
+    environment:
+      # - POSTGRES_USER=postgres # The PostgreSQL user (useful to connect to the database)
+      - POSTGRES_PASSWORD=password # The PostgreSQL password (useful to connect to the database)
+      # - POSTGRES_DB=note-keeper # The PostgreSQL default database (automatically created at first launch)
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    # ports:
+    #   - "5432:5432"
+    # volumes:
+    #   - ./DockerDB/init.sql:/docker-entrypoint-initdb.d/init.sql
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: note-keeper
+        awslogs-region: us-east-1
+        awslogs-stream-prefix: note-keeper-db
+
+  backend:
+    image: 821924379270.dkr.ecr.us-east-1.amazonaws.com/note-keeper-backend:latest
+    ports:
+      - "9000:9000"
+    environment:
+      - POSTGRES_PASSWORD=password
+    command: ["./wait-for-postgres.sh", "db","--", "/app/server"]
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: note-keeper
+        awslogs-region: us-east-1
+        awslogs-stream-prefix: note-keeper-backend

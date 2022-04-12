@@ -15,7 +15,7 @@ http_address: 9000
 
 postgres:
   database: note-keeper
-  host: 127.0.0.1
+  host: db
   password: password
   port: 5432
   sslmode: ~
